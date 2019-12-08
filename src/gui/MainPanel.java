@@ -12,10 +12,13 @@ public class MainPanel extends JPanel {
 	private JButton orderButton;
 	private JButton historyButton;
 	private JButton manageButton;
+	private MainFrame mainFrame;
 
-	public MainPanel(){
+	public MainPanel(MainFrame mainFrame){
 		mainImage = new JPanel();
 		panelButtons = new JPanel();
+
+		this.mainFrame = mainFrame;
 
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -37,14 +40,28 @@ public class MainPanel extends JPanel {
 
 		panelButtons.setLayout(new FlowLayout(FlowLayout.CENTER, 60, 50));
 
-		orderButton.setIcon(new ImageIcon("/Users/elizavetavolianica/IdeaProjects/RestaurantOrderingSystem/src/source/icons/order.png"));
-		historyButton.setIcon(new ImageIcon("/Users/elizavetavolianica/IdeaProjects/RestaurantOrderingSystem/src/source/icons/history.png"));
-		manageButton.setIcon(new ImageIcon("/Users/elizavetavolianica/IdeaProjects/RestaurantOrderingSystem/src/source/icons/manage.png"));
+		orderButton.setIcon(new ImageIcon("./src/source/icons/order.png"));
+		historyButton.setIcon(new ImageIcon("./src/source/icons/history.png"));
+		manageButton.setIcon(new ImageIcon("./src/source/icons/manage.png"));
 
 		manageButton.setPreferredSize(new Dimension(150, 150));
 		orderButton.setPreferredSize(new Dimension(150, 150));
 		historyButton.setPreferredSize(new Dimension(150, 150));
-		
+
+		orderButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainFrame.getContentPane().removeAll();
+				mainFrame.getContentPane().add(mainFrame.orderPanel, BorderLayout.CENTER);
+				mainFrame.orderPanel.setVisible(true);
+			}
+		});
+
+		manageButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new ManagePanel(mainFrame);
+			}
+		});
 
 		panelButtons.add(orderButton);
 		panelButtons.add(historyButton);
