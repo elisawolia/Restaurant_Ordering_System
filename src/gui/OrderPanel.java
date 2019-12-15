@@ -20,8 +20,8 @@ public class OrderPanel extends JPanel {
 		checkPanel.setPreferredSize(new Dimension(200, getHeight()));
 		choosePanel.setPreferredSize(new Dimension(600, getHeight()));
 
-		checkPanel.setBackground(Color.magenta);
-		choosePanel.setBackground(Color.green);
+		checkPanel.setBackground(Color.white);
+		choosePanel.setBackground(Color.white);
 
 		add(choosePanel, BoxLayout.X_AXIS);
 		add(checkPanel, BoxLayout.X_AXIS);

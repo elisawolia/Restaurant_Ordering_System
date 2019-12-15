@@ -4,6 +4,8 @@ import controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class EmpFrame extends JFrame {
 	private TableEmp tableEmp;
@@ -20,6 +22,12 @@ public class EmpFrame extends JFrame {
 
 		tableEmp.setData(controller.getStaff());
 
+		tableEmp.setEmpTableListener(new EmpTableListener() {
+			public void rowDeleted(int row) {
+				controller.removeEmp(row);
+			}
+		});
+
 		setLayout(new BorderLayout());
 
 		add(tableEmp, BorderLayout.CENTER);
@@ -30,5 +38,14 @@ public class EmpFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
+	}
+
+	public void setOk(JFrame frame) {
+		okBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
 	}
 }

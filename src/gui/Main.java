@@ -35,7 +35,7 @@ public class Main {
 	public static Connection getConnection() throws SQLException, IOException {
 
 		Properties props = new Properties();
-		try(InputStream in = Files.newInputStream(Paths.get("gui/database.properties"))){
+		try(InputStream in = Files.newInputStream(Paths.get("gui/'database.properties'"))){
 			props.load(in);
 		}
 		String url = props.getProperty("url");

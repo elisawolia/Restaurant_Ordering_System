@@ -1,6 +1,7 @@
 package gui;
 
 import controller.Controller;
+import controller.ControllerMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,7 @@ public class CheckPanel extends JPanel {
 	private JTextArea checkPane;
 	private JPanel	checkPanel;
 
-	private Controller controllerOne;
+	private ControllerMenu controllerOne;
 
 	private JButton cancelBtn;
 	private JButton okButton;
@@ -25,15 +26,15 @@ public class CheckPanel extends JPanel {
 		checkPane = new JTextArea();
 		checkPanel = new JPanel();
 
-		controllerOne = new Controller();
+		controllerOne = new ControllerMenu();
 
 		checkTable.setData(controllerOne.getItems());
 
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-		checkTable.setBackground(Color.magenta);
-		checkPane.setBackground(Color.GRAY);
-		checkPanel.setBackground(Color.GREEN);
+	//	checkTable.setBackground(Color.magenta);
+	//	checkPane.setBackground(Color.GRAY);
+	//	checkPanel.setBackground(Color.GREEN);
 
 		checkTable.setPreferredSize(new Dimension(300, 300));
 

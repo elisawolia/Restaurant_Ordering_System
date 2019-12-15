@@ -6,16 +6,12 @@ import model.*;
 import java.util.List;
 
 public class Controller {
-	Database DB = new Database();
-	Order ord = new Order();
-	Staff staff = new Staff();
+	private Database DB = new Database();
 
-	public void Controller() {
+	private Staff staff;
 
-	}
-
-	public List<FoodItem> getItems() {
-		return ord.getItems();
+	public Controller() {
+		staff = DB.getStaff();
 	}
 
 	public List<Employee> getStaff() {
@@ -29,7 +25,11 @@ public class Controller {
 		String login = e.getLogin();
 		String password = e.getPassword();
 
-		Employee emp = new Employee(fName, lName, birth, login, password);
 		DB.addEmp(fName, lName, birth, login, password);
+	}
+
+	public void removeEmp(int id) {
+		DB.removeEmp(id);
+		staff.removeEmp(id);
 	}
 }

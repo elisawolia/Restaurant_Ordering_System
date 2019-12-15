@@ -3,6 +3,7 @@ package model;
 import java.sql.Statement;
 
 public class Employee {
+	private int id;
 	private String fName;
 	private String lName;
 	private String birth;
@@ -13,12 +14,21 @@ public class Employee {
 
 	}
 
-	public Employee(String fName, String lName, String birth, String login, String password) {
+	public Employee(int id, String fName, String lName, String birth, String login, String password) {
+		this.id = id;
 		this.fName = fName;
 		this.lName = lName;
 		this.birth = birth;
 		this.login = login;
 		this.password = password;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getfName() {

@@ -36,7 +36,7 @@ public class EmpTableModel extends AbstractTableModel {
 
 		switch(columnIndex) {
 			case 0:
-				return null;
+				return emp.getId();
 			case 1:
 				return emp.getfName();
 			case 2:

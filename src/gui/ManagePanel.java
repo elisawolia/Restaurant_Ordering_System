@@ -88,6 +88,7 @@ public class ManagePanel extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				EmpFrame empFrame = new EmpFrame();
+				empFrame.setOk(empFrame);
 			}
 		});
 
@@ -101,6 +102,16 @@ public class ManagePanel extends JFrame {
 		lookItem = new JButton("Browse Menu");
 
 		menuPanel.setLayout(new GridLayout(1,2));
+
+		addItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					AddItemFrame addItemFrame = new AddItemFrame();
+				} catch (ParseException ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 
 		menuPanel.add(addItem);
 		menuPanel.add(lookItem);
