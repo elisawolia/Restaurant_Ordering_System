@@ -1,6 +1,6 @@
 package controller;
 
-import gui.EmpEvent;
+import gui.OrdEvent;
 import model.*;
 import model.MenuF;
 
@@ -25,19 +25,35 @@ public class ControllerMenu {
 	}
 
 	public List<FoodItem> getMenu() {
-
 		return menu.getMenu();
 	}
 
-	public void addOrd(EmpEvent e) {
-		String fName = e.getfName();
-		String lName = e.getlName();
-		String birth = e.getBirth();
-		String login = e.getLogin();
-		String password = e.getPassword();
+	public void addOrd(OrdEvent e) {
+		String title = e.getItemName();
+		int id = e.getId();
+		double price = e.getPrice();
+		double size = e.getSize();
 
-		DB.addEmp(fName, lName, birth, login, password);
+		FoodItem item = new FoodItem(id, title, size, price);
+		ord.addItem(item);
 	}
+
+	public void addItem(OrdEvent e) {
+		String itemName = e.getItemName();
+		Double size = e.getSize();
+		Double price = e.getPrice();
+		int typeCat = e.getTypeCat();
+		String desc = e.getDesc();
+		String path = e.getIcon();
+
+		FoodItem item = new FoodItem(itemName, size, price, typeCat, desc, path);
+		DB.addItem(item);
+	}
+
+	 public void addOrderToQueue() {
+		if (ord != null)
+			DB.addOrder(ord);
+	 }
 
 	public void removeOrd(int id) {
 		DB.removeEmp(id);

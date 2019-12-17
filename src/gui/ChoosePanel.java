@@ -41,6 +41,8 @@ public class ChoosePanel extends JPanel {
 	private ImageIcon iconIm;
 	private JLabel icon;
 
+	private OrdListener ordListener;
+
 	public ChoosePanel() {
 
 		GridLayout gl = new GridLayout(1,1);
@@ -203,8 +205,21 @@ public class ChoosePanel extends JPanel {
 		addBth.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String itemName = item.getItemName();
+				int id = item.getId();
+				double size = item.getSize();
+				double price = item.getPrice();
 
+				OrdEvent ord = new OrdEvent(this, id, itemName, size, price);
+
+				if (ordListener != null) {
+					ordListener.ordEventOccured(ord);
+				}
 			}
 		});
+	}
+
+	public void setOrdListener(OrdListener listener) {
+		this.ordListener = listener;
 	}
 }

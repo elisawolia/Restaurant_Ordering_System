@@ -1,6 +1,7 @@
 package gui;
 
 import controller.Controller;
+import controller.ControllerMenu;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -21,6 +22,7 @@ public class ManagePanel extends JFrame {
 
 	private MainFrame mainFrame;
 	private Controller controller;
+	private ControllerMenu controllerMenu;
 
 	public ManagePanel(MainFrame mainFrame){
 		this.mainFrame = mainFrame;
@@ -29,6 +31,7 @@ public class ManagePanel extends JFrame {
 		menuPanel = new JPanel();
 
 		controller = new Controller();
+		controllerMenu = new ControllerMenu();
 
 		setLayout(new BorderLayout());
 
@@ -41,8 +44,8 @@ public class ManagePanel extends JFrame {
 		menuPanel.setBorder(BorderFactory.createCompoundBorder(menuInnerBorder,menuOuterBorder));
 
 
-		staffPanel.setBackground(Color.GREEN);
-		menuPanel.setBackground(Color.magenta);
+	//	staffPanel.setBackground(Color.GREEN);
+	//	menuPanel.setBackground(Color.magenta);
 
 		staffPanel.setPreferredSize(new Dimension(300, 150));
 		menuPanel.setPreferredSize(new Dimension(300, 150));
@@ -53,8 +56,8 @@ public class ManagePanel extends JFrame {
 		add(staffPanel, BorderLayout.LINE_START);
 		add(menuPanel, BorderLayout.LINE_END);
 
-		setMinimumSize(new Dimension(600, 250));
-		setSize(600, 250);
+		setMinimumSize(new Dimension(600, 200));
+		setSize(600, 200);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
@@ -107,6 +110,13 @@ public class ManagePanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					AddItemFrame addItemFrame = new AddItemFrame();
+					addItemFrame.setOrdListener(new OrdListener() {
+						public void ordEventOccured(OrdEvent e) {
+							if (e.getItemName() != null)
+								controllerMenu.addItem(e);
+							addItemFrame.dispose();
+						}
+					});
 				} catch (ParseException ex) {
 					ex.printStackTrace();
 				}

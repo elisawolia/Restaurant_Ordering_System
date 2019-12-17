@@ -22,8 +22,8 @@ public class MainPanel extends JPanel {
 
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-		mainImage.setBackground(Color.ORANGE);
-		panelButtons.setBackground(Color.CYAN);
+	//	mainImage.setBackground(Color.ORANGE);
+	//	panelButtons.setBackground(Color.CYAN);
 
 		panelButtons.setPreferredSize(new Dimension(getWidth(), -70));
 
@@ -53,6 +53,7 @@ public class MainPanel extends JPanel {
 				mainFrame.getContentPane().removeAll();
 				mainFrame.getContentPane().add(mainFrame.orderPanel, BorderLayout.CENTER);
 				mainFrame.orderPanel.setVisible(true);
+				mainFrame.orderPanel.setChoosePanel();
 			}
 		});
 

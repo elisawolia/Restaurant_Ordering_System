@@ -3,10 +3,12 @@ package gui;
 import model.TypeCategory;
 
 import javax.swing.*;
-import javax.swing.text.MaskFormatter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 
 public class AddItemFrame extends JFrame{
@@ -24,12 +26,21 @@ public class AddItemFrame extends JFrame{
 	private JTextField descText;
 	private JList typeList;
 	private JButton chose;
+	private JFileChooser fileChooser;
+
+	private File file;
 
 	private JButton cancelBtn;
 	private JButton addBtn;
 
+	private OrdListener ordListener;
+
 	public AddItemFrame() throws ParseException {
 		setLayout(new GridBagLayout());
+
+		fileChooser = new JFileChooser();
+		fileChooser.setAcceptAllFileFilterUsed(false);
+		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Icons", "png"));
 
 		space = new JLabel("");
 		titleLabel = new JLabel("Title:");
@@ -155,5 +166,43 @@ public class AddItemFrame extends JFrame{
 		gc.anchor = GridBagConstraints.LINE_END;
 		gc.gridx = 0;
 		add(cancelBtn, gc);
+
+		chose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fileChooser.showOpenDialog(AddItemFrame.this) == JFileChooser.APPROVE_OPTION) {
+					file = fileChooser.getSelectedFile();
+				}
+			}
+		});
+
+		addBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String title = titleField.getText();
+				if (sizeField.getText().isEmpty())
+					return ;
+				double size =  Double.parseDouble(sizeField.getText());
+				if (priceField.getText().isEmpty())
+					return ;
+				double price = Double.parseDouble(priceField.getText());
+				String desc = descText.getText();
+				TypeCategory typeCategory = (TypeCategory)typeList.getSelectedValue();
+				if (file == null)
+				{
+					JOptionPane.showMessageDialog(AddItemFrame.this, "PLease fill all the fields!");
+					return ;
+				}
+				String path = file.getAbsolutePath();
+
+				OrdEvent ord = new OrdEvent(this, title, size, price, typeCategory.getId(), desc, path);
+
+				if (ordListener != null) {
+					ordListener.ordEventOccured(ord);
+				}
+			}
+		});
+	}
+
+	public void setOrdListener(OrdListener ordListener) {
+		this.ordListener = ordListener;
 	}
 }

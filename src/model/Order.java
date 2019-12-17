@@ -1,20 +1,20 @@
 package model;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Order {
 	private static int count = 0;
 	private int idOrder;
 	private List<FoodItem> items;
 	private double orderPrice;
+	private Date date;
 
 
 	public Order() {
 		this.idOrder = count;
 		items = new LinkedList<FoodItem>();
 		this.orderPrice = 0;
+		this.date = new Date();
 
 		count++;
 	}

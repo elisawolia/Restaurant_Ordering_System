@@ -13,22 +13,20 @@ public class CheckPanel extends JPanel {
 	private JTextArea checkPane;
 	private JPanel	checkPanel;
 
-	private ControllerMenu controllerOne;
+//	private ControllerMenu controllerOne;
 
 	private JButton cancelBtn;
 	private JButton okButton;
 
-	private MainFrame mainFrame;
-	CheckPanel(MainFrame mainFrame) {
-		this.mainFrame = mainFrame;
+	CheckPanel() {
 
 		checkTable = new TablePanel();
 		checkPane = new JTextArea();
 		checkPanel = new JPanel();
 
-		controllerOne = new ControllerMenu();
+	//	controllerOne = new ControllerMenu();
 
-		checkTable.setData(controllerOne.getItems());
+	//	checkTable.setData(controllerOne.getItems());
 
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -54,6 +52,20 @@ public class CheckPanel extends JPanel {
 		cancelBtn.setPreferredSize(new Dimension(100, 40));
 		okButton.setPreferredSize(new Dimension(100, 40));
 
+		checkPanel.add(cancelBtn);
+		checkPanel.add(okButton);
+	}
+
+	public void setTable(ControllerMenu controller) {
+		checkTable.setData(controller.getItems());
+	}
+
+	public void freshTable() {
+		checkTable.refresh();
+	}
+
+	public void setCheckBtn(MainFrame mainFrame, ControllerMenu controller) {
+
 		cancelBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new MainFrame();
@@ -64,12 +76,10 @@ public class CheckPanel extends JPanel {
 		okButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				controller.addOrderToQueue();
 				new MainFrame();
 				mainFrame.dispose();
 			}
 		});
-
-		checkPanel.add(cancelBtn);
-		checkPanel.add(okButton);
 	}
 }
