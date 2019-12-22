@@ -20,6 +20,11 @@ public class ControllerMenu {
 		menu = DB.getItems(id);
 	}
 
+	public void getAllItems() {
+		for (int i = 0; i < 9; i++)
+			menu.addMenu(DB.getItems(i));
+	}
+
 	public List<FoodItem> getItems() {
 		return ord.getItems();
 	}
@@ -50,7 +55,11 @@ public class ControllerMenu {
 		DB.addItem(item);
 	}
 
-	 public void addOrderToQueue() {
+	public Order getOrd() {
+		return ord;
+	}
+
+	public void addOrderToQueue() {
 		if (ord != null)
 			DB.addOrder(ord);
 	 }

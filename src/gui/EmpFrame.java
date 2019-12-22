@@ -18,8 +18,6 @@ public class EmpFrame extends JFrame {
 		okBtn = new JButton("OK");
 		controller = new Controller();
 
-	//	tableEmp.setBackground(Color.magenta);
-
 		tableEmp.setData(controller.getStaff());
 
 		tableEmp.setEmpTableListener(new EmpTableListener() {

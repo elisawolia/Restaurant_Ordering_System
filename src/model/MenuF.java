@@ -15,6 +15,10 @@ public class MenuF {
 		menu.add(foodItem);
 	}
 
+	public void addMenu(MenuF newmenu) {
+		menu.addAll(newmenu.getMenu());
+	}
+
 	public void removeItem(int id) {
 		menu.remove(id);
 	}

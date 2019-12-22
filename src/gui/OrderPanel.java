@@ -41,7 +41,9 @@ public class OrderPanel extends JPanel {
 				if (e.getItemName() != null)
 				{
 					controllerOne.addOrd(e);
+					checkPanel.setPane(controllerOne);
 					checkPanel.freshTable();
+					checkPanel.freshPane();
 				}
 			}
 		});

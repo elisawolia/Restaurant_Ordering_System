@@ -175,6 +175,13 @@ public class AddItemFrame extends JFrame{
 			}
 		});
 
+		cancelBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+
 		addBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String title = titleField.getText();
@@ -188,7 +195,7 @@ public class AddItemFrame extends JFrame{
 				TypeCategory typeCategory = (TypeCategory)typeList.getSelectedValue();
 				if (file == null)
 				{
-					JOptionPane.showMessageDialog(AddItemFrame.this, "PLease fill all the fields!");
+					JOptionPane.showMessageDialog(AddItemFrame.this, "Please attach the icon!");
 					return ;
 				}
 				String path = file.getAbsolutePath();

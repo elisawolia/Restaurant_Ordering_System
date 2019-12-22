@@ -43,10 +43,6 @@ public class ManagePanel extends JFrame {
 		Border menuInnerBorder = BorderFactory.createEmptyBorder(10, 5, 10, 10);
 		menuPanel.setBorder(BorderFactory.createCompoundBorder(menuInnerBorder,menuOuterBorder));
 
-
-	//	staffPanel.setBackground(Color.GREEN);
-	//	menuPanel.setBackground(Color.magenta);
-
 		staffPanel.setPreferredSize(new Dimension(300, 150));
 		menuPanel.setPreferredSize(new Dimension(300, 150));
 
@@ -120,6 +116,14 @@ public class ManagePanel extends JFrame {
 				} catch (ParseException ex) {
 					ex.printStackTrace();
 				}
+			}
+		});
+
+		lookItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new BrowseMenuFrame();
+				dispose();
 			}
 		});
 

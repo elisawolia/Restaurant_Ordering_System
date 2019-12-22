@@ -57,6 +57,12 @@ public class MainPanel extends JPanel {
 			}
 		});
 
+		historyButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new HistoryFrame();
+			}
+		});
+
 		manageButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

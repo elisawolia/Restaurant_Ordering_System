@@ -6,13 +6,16 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Database {
 	private Staff staff;
 	private MenuF menu;
+	private MenuF menuFull;
 	private LocalDate ld;
+	private HistoryOrd orders;
 
 	private static String url = "jdbc:mysql://localhost/restaurant?serverTimezone=Europe/Moscow&useSSL=false";
 	private static String user = "root";
@@ -21,6 +24,93 @@ public class Database {
 	public Database(){
 		staff = new Staff();
 		menu = new MenuF();
+	}
+
+	public int getOrdId() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+			try (Connection connection = DriverManager.getConnection(url, user, password)){
+				int count = 0;
+				Statement statement = connection.createStatement();
+				ResultSet r = statement.executeQuery("SELECT COUNT(id_order) FROM restaurant.order");
+				while (r.next())
+					count = r.getInt(1) + 1;
+				return count;
+			}
+		} catch (Exception e) {
+			System.out.println("Couldn't get id order!\n");
+			System.out.println(e);
+		}
+		return 0;
+	}
+
+	public void updateIngred(Ingredient ingredient) {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+			try (Connection connection = DriverManager.getConnection(url, user, password)){
+				double amount = 0;
+				Statement statement = connection.createStatement();
+				ResultSet rs = statement.executeQuery("SELECT * FROM restaurant.ingred;");
+				while (rs.next())
+				{
+					if (rs.getInt(1) == ingredient.getId())
+						amount = rs.getDouble("left");
+				}
+
+				amount = amount + ingredient.getLeft();
+				statement.executeUpdate("UPDATE `restaurant`.`ingred` SET `left`=" +
+						amount + " WHERE (`id_ingred` ='"+ ingredient.getId() + "');");
+			}
+		} catch (Exception e) {
+			System.out.println("Couldn't update ingredient!\n");
+			System.out.println(e);
+		}
+	}
+
+	public AllIngred getIngreds() {
+		AllIngred allIngred = new AllIngred();
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+			try (Connection connection = DriverManager.getConnection(url, user, password)){
+				int count = 0;
+				Statement statement = connection.createStatement();
+				ResultSet rs = statement.executeQuery("SELECT * FROM restaurant.ingred;");
+				while (rs.next())
+				{
+					int id = rs.getInt("id_ingred");
+					String ingred = rs.getString("ingred");
+					double price = rs.getDouble("price_for_unit");
+					double left = rs.getDouble("left");
+
+					Ingredient ingredient = new Ingredient(id, ingred, price, left);
+					allIngred.addIngred(ingredient);
+				}
+				return allIngred;
+			}
+		} catch (Exception e) {
+			System.out.println("Couldn't get ingredients!\n");
+			System.out.println(e);
+			return null;
+		}
+	}
+
+	public void newIngred(Ingredient ingredient) {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+			try (Connection connection = DriverManager.getConnection(url, user, password)){
+				int count = 0;
+				Statement statement = connection.createStatement();
+				ResultSet r = statement.executeQuery("SELECT COUNT(id_ingred) FROM ingred");
+				while (r.next())
+					count = r.getInt(1) + 1;
+				statement.executeUpdate("INSERT INTO `restaurant`.`ingred` (`id_ingred`, `ingred`, `price_for_unit`, `left`) " +
+						"VALUES ('" + count + "', '"+ ingredient.getIngred() + "', '" + ingredient.getPrice() + "', '"
+						+ ingredient.getLeft() + "');");
+			}
+		} catch (Exception e) {
+			System.out.println("Couldn't add to ingredient items!\n");
+			System.out.println(e);
+		}
 	}
 
 	public void addItem(FoodItem item) {
@@ -70,6 +160,7 @@ public class Database {
 	}
 
 	public MenuF getItems(int type) {
+		menuFull = new MenuF();
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
 			try (Connection connection = DriverManager.getConnection(url, user, password)){
@@ -86,14 +177,86 @@ public class Database {
 					String desc = rs.getString("recipe");
 
 					FoodItem item = new FoodItem(id, title, size, price, icon, desc);
-					menu.addItem(item);
+					menuFull.addItem(item);
 				}
-				return menu;
+				return menuFull;
 			}
 		} catch (Exception e) {
 			System.out.println("Couldn't load menu!\n");
 			System.out.println(e);
 			return null;
+		}
+	}
+
+	public HistoryOrd getOrders(int id) {
+		orders = new HistoryOrd();
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+			try (Connection connection = DriverManager.getConnection(url, user, password)){
+				Statement statement = connection.createStatement();
+				ResultSet rs = statement.executeQuery("SELECT id_order, date_time, l_name\n" +
+						" FROM restaurant.order inner join employee on employee.id_emp = restaurant.order.id_emp");
+				while (rs.next())
+				{
+					int id_ord = rs.getInt("id_order");
+					LocalDate date = rs.getDate("date_time").toLocalDate();
+					String emp = rs.getString("l_name");
+
+
+					Period period = Period.between(date, LocalDate.now());
+					int diff = period.getDays();
+					System.out.println(diff);
+					if (id == 0)
+					{
+						if (diff < 1)
+						{
+							Order ord = new Order(id_ord, date, emp);
+							orders.addOrd(ord);
+						}
+					} else if (id == 1)
+					{
+						if (diff < 2)
+						{
+							Order ord = new Order(id_ord, date, emp);
+							orders.addOrd(ord);
+						}
+					} else if (id == 2)
+					{
+						if (diff < 7)
+						{
+							Order ord = new Order(id_ord, date, emp);
+							orders.addOrd(ord);
+						}
+					} else if (id == 3)
+					{
+						if (diff < 30)
+						{
+							Order ord = new Order(id_ord, date, emp);
+							orders.addOrd(ord);
+						}
+					} else {
+						return null;
+					}
+				}
+				return orders;
+			}
+		} catch (Exception e) {
+			System.out.println("Couldn't add to table employee\n");
+			System.out.println(e);
+			return null;
+		}
+	}
+
+	public void removeOrd(int id) {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+			try (Connection connection = DriverManager.getConnection(url, user, password)){
+				Statement statement = connection.createStatement();
+				statement.executeUpdate("DELETE FROM `restaurant`.`order` WHERE (`id_order` = '"+ id +"');");
+			}
+		} catch (Exception e) {
+			System.out.println("Couldn't remove an employee from table!\n");
+			System.out.println(e);
 		}
 	}
 
